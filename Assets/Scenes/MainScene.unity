@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 733998382}
   - component: {fileID: 733998381}
   - component: {fileID: 733998380}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -239,7 +239,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
+  jumpForce: 10
+  platformLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
   animator: {fileID: 1549493184}
+  playerSprite: {fileID: 1549493181}
 --- !u!50 &733998381
 Rigidbody2D:
   serializedVersion: 4
@@ -255,7 +260,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 3
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -314,7 +319,7 @@ GameObject:
   - component: {fileID: 829800802}
   - component: {fileID: 829800801}
   - component: {fileID: 829800803}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -397,7 +402,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 829800800}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 7260b469e61ef8f4b8edc14fa9a92428, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -425,7 +430,7 @@ GameObject:
   - component: {fileID: 1549493182}
   - component: {fileID: 1549493183}
   - component: {fileID: 1549493184}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Knight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
