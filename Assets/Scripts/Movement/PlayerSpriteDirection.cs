@@ -34,9 +34,9 @@ namespace Movement
         {
             return horizontalInput switch
             {
-                -1 => Direction.Backward,
-                1 => Direction.Forward,
-                _ => _currentDirection
+                < 0 => Direction.Backward,
+                > 0 => Direction.Forward, 
+                0 => _currentDirection
             };
         }
 
