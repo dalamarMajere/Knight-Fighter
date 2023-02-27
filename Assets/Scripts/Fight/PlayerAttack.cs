@@ -3,13 +3,9 @@ using UnityEngine;
 
 namespace Fight
 {
-    public class Enemy : MonoBehaviour
-    {
-        
-    }
-    
     public class PlayerAttack : MonoBehaviour
     {
+        [SerializeField] private float damage;
         [SerializeField] private Animator attackAnimation;
         [SerializeField] private Transform attackPoint;
         [SerializeField] private float attackRange = 0.5f;
@@ -19,7 +15,7 @@ namespace Fight
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (HasInput())
             {
                 Attack();
             }
@@ -33,8 +29,16 @@ namespace Fight
             
             foreach (var hitEnemy in hitEnemies)
             {
-                // damage them    
+                if (hitEnemy.TryGetComponent<IDamageble>(out var damageble))
+                {
+                    damageble.TakeDamage(damage);
+                }
             }
+        }
+        
+        private bool HasInput()
+        {
+            return Input.GetKeyDown(KeyCode.Space);
         }
 
         private void PlayAnimation()
