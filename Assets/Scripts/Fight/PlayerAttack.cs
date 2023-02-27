@@ -25,8 +25,13 @@ namespace Fight
         {
             PlayAnimation();
 
-            var hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayerMask);
+            var enemiesCollider = GetHitColliders();
             
+            HitEnemies(enemiesCollider);
+        }
+
+        private void HitEnemies(Collider2D[] hitEnemies)
+        {
             foreach (var hitEnemy in hitEnemies)
             {
                 if (hitEnemy.TryGetComponent<IDamageble>(out var damageble))
@@ -35,7 +40,12 @@ namespace Fight
                 }
             }
         }
-        
+
+        private Collider2D[] GetHitColliders()
+        {
+            return Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayerMask);
+        }
+
         private bool HasInput()
         {
             return Input.GetKeyDown(KeyCode.Space);
