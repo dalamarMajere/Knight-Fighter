@@ -1078,6 +1078,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   jumpForce: 11
+  acceleration: 7
+  decceleration: 7
+  velocityPower: 0.9
   platformLayerMask:
     serializedVersion: 2
     m_Bits: 64

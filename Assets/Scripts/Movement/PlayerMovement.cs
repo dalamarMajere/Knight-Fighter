@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Movement
 {
@@ -9,6 +10,11 @@ namespace Movement
         [Header("Movement Characteristics")]
         [SerializeField] private float speed;
         [SerializeField] private float jumpForce;
+        [SerializeField] private float acceleration = 7;
+        [SerializeField] private float decceleration = 7;
+        [SerializeField] private float velocityPower = 0.9f;
+        [SerializeField] private float frictionAmount = 0.2f;
+        
         [Header("Other")] [SerializeField]
         private LayerMask platformLayerMask;
         [SerializeField] private Animator animator;
@@ -48,6 +54,7 @@ namespace Movement
         private void FixedUpdate()
         {
             MovePlayer();
+            AddFriction();
         }
 
         private void TryJumping()
@@ -71,7 +78,22 @@ namespace Movement
 
         private void MovePlayer()
         {
-            _rigidbody.velocity = _forwardDirection * (_horizontalInput * speed) + _rigidbody.velocity.y * Vector2.up;
+            float targetSpeed = _horizontalInput * speed;
+            float speedDif = targetSpeed - _rigidbody.velocity.x;
+            float accelerationRate = (Mathf.Abs(targetSpeed) > 0.01 ? acceleration : decceleration);
+            float movement = Mathf.Pow(Mathf.Abs(speedDif) * accelerationRate, velocityPower) * Mathf.Sign(speedDif);
+            
+            _rigidbody.AddForce(movement * _forwardDirection);
+        }
+        
+        private void AddFriction()
+        {
+            if (_isGrounded & Mathf.Abs(_horizontalInput) < 0.01f)
+            {
+                float amount = Mathf.Min(Mathf.Abs(_rigidbody.velocity.x), Mathf.Abs(frictionAmount));
+                amount *= Mathf.Sign(_rigidbody.velocity.x);
+                _rigidbody.AddForce(_forwardDirection * -amount, ForceMode2D.Impulse);
+            }
         }
 
         private void GetInput()
