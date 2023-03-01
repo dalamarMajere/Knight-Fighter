@@ -5,6 +5,8 @@ namespace Fight
 {
     public class Character : MonoBehaviour, IDamageble
     {
+        [SerializeField] protected Animator animator;
+        
         private float _health;
 
         protected virtual void Start()
@@ -15,6 +17,15 @@ namespace Fight
         public void TakeDamage(float damage)
         {
             _health = Mathf.Max(0, _health - damage);
+            if (_health == 0)
+            {
+                Die();
+            }
+        }
+
+        private void Die()
+        {
+            animator.SetTrigger("Death");
         }
     }
 }

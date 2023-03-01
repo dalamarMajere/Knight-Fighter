@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Runtime.CompilerServices;
+using UnityEngine;
 
 namespace Movement
 {
@@ -36,7 +38,8 @@ namespace Movement
             {
                 < 0 => Direction.Backward,
                 > 0 => Direction.Forward, 
-                0 => _currentDirection
+                0 => _currentDirection,
+                _ => _currentDirection
             };
         }
 

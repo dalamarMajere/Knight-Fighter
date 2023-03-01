@@ -2,18 +2,22 @@
 
 namespace Fight
 {
-    public class CharacterAttack : MonoBehaviour
+    public abstract class CharacterAttack : MonoBehaviour
     {
+        [Header("Attack Characteristics")]
         [SerializeField] private float damage;
-        [SerializeField] private Animator animator;
         [SerializeField] private Transform attackPoint;
         [SerializeField] private float attackRange = 0.5f;
-        [SerializeField] private LayerMask enemyLayerMask;
+        [SerializeField] protected LayerMask enemyLayerMask;
+        
+        [Header("Visual")]
+        [SerializeField] private Animator animator;
         
         private readonly int AttackHash = Animator.StringToHash("Attack");
 
         protected void Attack()
         {
+            Debug.Log("Attack!" + name);
             PlayAnimation();
 
             var enemiesCollider = GetHitColliders();

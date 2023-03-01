@@ -1,5 +1,6 @@
 ﻿using System;
 using Codice.Client.BaseCommands;
+using Codice.CM.Common.Tree.Partial;
 using UnityEngine;
 using Pathfinding;
 
@@ -19,7 +20,6 @@ namespace Fight
         [SerializeField] private LayerMask platformLayerMask;
         
         [Header("Visual")] 
-        [SerializeField] private Animator animator;
         [SerializeField] private Transform enemySprite;
 
         private Path _path;
@@ -28,6 +28,7 @@ namespace Fight
 
         private Seeker _seeker;
         private Rigidbody2D _rigidbody2D;
+        
         private static readonly int SpeedHash = Animator.StringToHash("Speed");
 
         private void Awake()
@@ -47,8 +48,12 @@ namespace Fight
         private void Update()
         {
             HandleFlipping();
-            TryIncreasingWaypointIndex();
             SetAnimation();
+
+            if (IsPathInitialized())
+            {
+                return;
+            }
             
             if (HasReachedEndOfPath())
             {
@@ -58,18 +63,15 @@ namespace Fight
 
             _hasReachedEndOfPath = false;
         }
-
-        private void SetAnimation()
-        {
-            animator.SetFloat(SpeedHash, Mathf.Abs(_rigidbody2D.velocity.x));
-        }
-
+        
         private void FixedUpdate()
         {
             if (IsPathInitialized() || _hasReachedEndOfPath)
             {
                 return;
             }
+            
+            TryIncreasingWaypointIndex();
             
             if (!CanMove())
             {
@@ -85,16 +87,6 @@ namespace Fight
             _rigidbody2D.velocity = Vector3.zero;
         }
 
-        private void TryIncreasingWaypointIndex()
-        {
-            float distance = GetDistanceBetweenWaypoints();
-
-            if (distance < nextWaypointDistance)
-            {
-                _currentWaypoint++;
-            }
-        }
-
         private void MoveEnemy()
         {
             Vector2 direction = GetDirection();
@@ -106,9 +98,19 @@ namespace Fight
 
         private bool CanMove()
         {
-            var hit = Physics2D.Raycast(groundCheckPoint.position,  Vector2.down, raycastDistance, platformLayerMask);
-            Debug.DrawLine(groundCheckPoint.position, groundCheckPoint.position + raycastDistance * Vector3.down);
+            var hit = Physics2D.Raycast((Vector2)groundCheckPoint.position + GetDirection(),  Vector2.down, raycastDistance, platformLayerMask);
+            Debug.DrawLine((Vector2)groundCheckPoint.position + GetDirection(), (Vector2)groundCheckPoint.position + GetDirection() + raycastDistance * Vector2.down);
             return hit.collider != null;
+        }
+        
+        private void TryIncreasingWaypointIndex()
+        {
+            float distance = GetDistanceBetweenWaypoints();
+
+            if (distance < nextWaypointDistance)
+            {
+                _currentWaypoint++;
+            }
         }
 
         private void UpdatePath()
@@ -149,7 +151,7 @@ namespace Fight
 
         private Vector2 GetDirection()
         {
-            return ((Vector2)_path.vectorPath[_currentWaypoint] - _rigidbody2D.position).normalized;
+            return ((Vector2)_path.vectorPath[Mathf.Min(_currentWaypoint, _path.vectorPath.Count)] - _rigidbody2D.position).normalized;
         }
 
         private bool HasReachedEndOfPath()
@@ -160,6 +162,11 @@ namespace Fight
         private bool IsPathInitialized()
         {
             return _path == null;
+        }
+        
+        private void SetAnimation()
+        {
+            animator.SetFloat(SpeedHash, Mathf.Abs(_rigidbody2D.velocity.x));
         }
 
         private void GetReferences()
