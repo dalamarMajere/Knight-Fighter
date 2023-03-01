@@ -7,7 +7,7 @@ namespace Fight
     {
         private float _health;
 
-        private void Start()
+        protected virtual void Start()
         {
             _health = 100f;
         }
