@@ -9,11 +9,16 @@ namespace Movement
     {
         [Header("Movement Characteristics")]
         [SerializeField] private float speed;
-        [SerializeField] private float jumpForce;
         [SerializeField] private float acceleration = 7;
         [SerializeField] private float decceleration = 7;
         [SerializeField] private float velocityPower = 0.9f;
         [SerializeField] private float frictionAmount = 0.2f;
+        
+        [Header("Jump Characteristics")]
+        [SerializeField] private float jumpForce;
+        [SerializeField] private float coyoteTime;
+        [SerializeField] private float gravityScale;
+        [SerializeField] private float fallGravityScale;
         
         [Header("Other")] [SerializeField]
         private LayerMask platformLayerMask;
@@ -26,6 +31,8 @@ namespace Movement
         private bool _isGrounded;
         private BoxCollider2D _boxCollider2D;
         private PlayerSpriteDirection _playerSpriteDirection;
+        private float _lastGroundedTime;
+        private bool _isJumping;
         
         private static readonly int SpeedAnimationProperty = Animator.StringToHash("Speed");
         private readonly Vector2 _forwardDirection = Vector2.right;
@@ -46,9 +53,29 @@ namespace Movement
             GetInput();
 
             TryJumping();
+            AdjustGravity();
 
             SetAnimationSpeed();
             SetPlayerDirection();
+
+            DecreaseJumpingTime();
+        }
+
+        private void AdjustGravity()
+        {
+            if (_rigidbody.velocity.y < 0)
+            {
+                _rigidbody.gravityScale = gravityScale * fallGravityScale;
+            }
+            else
+            {
+                _rigidbody.gravityScale = gravityScale;
+            }
+        }
+
+        private void DecreaseJumpingTime()
+        {
+            _lastGroundedTime -= Time.deltaTime;
         }
 
         private void FixedUpdate()
@@ -59,10 +86,24 @@ namespace Movement
 
         private void TryJumping()
         {
-            if (_jumpingInput && IsGrounded())
+            if (IsGrounded())
             {
-                _rigidbody.velocity += Vector2.up * jumpForce;
+                _lastGroundedTime = coyoteTime;
+            }   
+            
+            if (_jumpingInput && _lastGroundedTime > 0)
+            {
+                Jump();
             }
+        }
+
+        private void Jump()
+        {
+            float force = jumpForce;
+            if (_rigidbody.velocity.y < 0)
+                force -= _rigidbody.velocity.y;
+
+            _rigidbody.AddForce(Vector2.up * force, ForceMode2D.Impulse);
         }
 
         private bool IsGrounded()
