@@ -16,14 +16,16 @@ namespace Fight
         
         private readonly int AttackHash = Animator.StringToHash("Attack");
 
-        protected void Attack()
+        protected virtual void Attack()
         {
-            Debug.Log("Attack!" + name);
-            PlayAnimation();
-
             var enemiesCollider = GetHitColliders();
             
             HitEnemies(enemiesCollider);
+        }
+        
+        protected void PlayAnimation()
+        {
+            animator.SetTrigger(AttackHash);
         }
         
         private void HitEnemies(Collider2D[] hitEnemies)
@@ -41,11 +43,5 @@ namespace Fight
         {
             return Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayerMask);
         }
-
-        private void PlayAnimation()
-        {
-            animator.SetTrigger(AttackHash);
-        }
-        
     }
 }
