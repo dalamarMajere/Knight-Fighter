@@ -5,12 +5,13 @@ namespace Characters
     public class Character : MonoBehaviour, IDamageble
     {
         [SerializeField] protected Animator animator;
+        [SerializeField] private float health;
         
         private float _health;
 
         protected virtual void Start()
         {
-            _health = 100f;
+            _health = health;
         }
 
         public void TakeDamage(float damage)
@@ -23,6 +24,12 @@ namespace Characters
         }
 
         private void Die()
+        {
+            SetAnimation();
+            
+        }
+
+        private void SetAnimation()
         {
             animator.SetTrigger("Death");
         }

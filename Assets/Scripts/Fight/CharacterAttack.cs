@@ -6,7 +6,7 @@ namespace Fight
     public abstract class CharacterAttack : MonoBehaviour
     {
         [Header("Attack Characteristics")]
-        [SerializeField] private float damage;
+        [SerializeField] protected float damage;
         [SerializeField] private Transform attackPoint;
         [SerializeField] private float attackRange = 0.5f;
         [SerializeField] protected LayerMask enemyLayerMask;

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Characters;
+using UnityEngine;
 
 namespace Fight.Enemy
 {
@@ -15,6 +16,7 @@ namespace Fight.Enemy
             fireball.transform.parent = null;
             
             fireball.FireInDirection(Vector2.right * enemySprite.localScale.x);
+            fireball.Damage = damage;
         }
     }
 }
