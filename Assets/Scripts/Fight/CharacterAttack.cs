@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Characters;
+using UnityEngine;
 
 namespace Fight
 {

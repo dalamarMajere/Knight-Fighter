@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Codice.Client.BaseCommands;
-using Codice.CM.Common.Tree.Partial;
+﻿using Pathfinding;
 using UnityEngine;
-using Pathfinding;
 
-namespace Fight
+namespace Characters
 {
     [RequireComponent(typeof(Seeker))]
     [RequireComponent(typeof(Rigidbody2D))]

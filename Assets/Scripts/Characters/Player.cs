@@ -1,4 +1,4 @@
-﻿namespace Fight
+﻿namespace Characters
 {
     public class Player : Character
     {

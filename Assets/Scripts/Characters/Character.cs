@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Fight
+namespace Characters
 {
     public class Character : MonoBehaviour, IDamageble
     {
