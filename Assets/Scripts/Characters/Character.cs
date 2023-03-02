@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using GameLogic;
+using UnityEngine;
 
 namespace Characters
 {
@@ -26,7 +27,8 @@ namespace Characters
         private void Die()
         {
             SetAnimation();
-            
+            Events.RaisePlayerDied();
+            Destroy(gameObject);
         }
 
         private void SetAnimation()
