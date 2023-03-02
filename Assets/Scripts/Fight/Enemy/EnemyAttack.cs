@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Fight
+namespace Fight.Enemy
 {
     public abstract class EnemyAttack : CharacterAttack
     {
@@ -17,27 +17,47 @@ namespace Fight
 
         private void Update()
         {
-            _cooldownTimeRemain -= Time.deltaTime;
+            DecreaseCooldownTime();
 
-            if (_cooldownTimeRemain > 0)
+            if (IsCoolingDown())
             {
                 return;
             }
 
             if (IsPlayerInRange())
             {
-                _cooldownTimeRemain = cooldownTime;
+                ReplenishCooldownTime();
                 PlayAnimation();
                 Attack();
             }
         }
 
+        private bool IsCoolingDown()
+        {
+            return _cooldownTimeRemain > 0;
+        }
+
         private bool IsPlayerInRange()
         {
-            var hit = Physics2D.BoxCast(
+            var hit = CastBox();
+            return hit.collider != null;
+        }
+
+        private RaycastHit2D CastBox()
+        {
+            return Physics2D.BoxCast(
                 boxCollider.bounds.center + transform.right * (distance * Mathf.Sign(enemySprite.localScale.x)),
                 new Vector2(boxCollider.bounds.size.x * range, boxCollider.bounds.size.y), 0, Vector2.left, 0, enemyLayerMask);
-            return hit.collider != null;
+        }
+
+        private void ReplenishCooldownTime()
+        {
+            _cooldownTimeRemain = cooldownTime;
+        }
+
+        private void DecreaseCooldownTime()
+        {
+            _cooldownTimeRemain -= Time.deltaTime;
         }
 
         private void OnDrawGizmos()

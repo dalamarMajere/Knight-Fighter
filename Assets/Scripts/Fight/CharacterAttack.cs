@@ -32,10 +32,19 @@ namespace Fight
         {
             foreach (var hitEnemy in hitEnemies)
             {
-                if (hitEnemy.TryGetComponent<IDamageble>(out var damageble))
-                {
-                    damageble.TakeDamage(damage);
-                }
+                TryHittingEnemy(hitEnemy);
+            }
+        }
+
+        private void TryHittingEnemy(Collider2D hitEnemy)
+        {
+            if (hitEnemy.TryGetComponent<IDamageble>(out var damageble))
+            {
+                damageble.TakeDamage(damage);
+            }
+            else
+            {
+                Debug.Log("There is no IDamageble component on the enemy!");
             }
         }
 

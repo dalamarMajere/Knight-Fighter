@@ -1,8 +1,6 @@
-using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace Fight
+namespace Fight.Player
 {
     public class PlayerAttack : CharacterAttack
     {

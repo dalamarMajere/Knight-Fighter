@@ -1,17 +1,20 @@
-﻿using Fight;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class RangedEnemyAttack : EnemyAttack
+namespace Fight.Enemy
 {
-    [Header("Fireball")]
-    [SerializeField] private Fireball fireballPrefab;
-
-    private float _cooldownTimeRemain;
-    
-    protected override void Attack()
+    public class RangedEnemyAttack : EnemyAttack
     {
-        var fireball = Instantiate(fireballPrefab, this.transform);
-        fireball.transform.parent = null;
-        fireball.FireInDirection(Vector2.right * enemySprite.localScale.x);
+        [Header("Fireball")]
+        [SerializeField] private Fireball fireballPrefab;
+
+        private float _cooldownTimeRemain;
+    
+        protected override void Attack()
+        {
+            var fireball = Instantiate(fireballPrefab, this.transform);
+            fireball.transform.parent = null;
+            
+            fireball.FireInDirection(Vector2.right * enemySprite.localScale.x);
+        }
     }
 }
