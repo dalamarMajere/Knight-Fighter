@@ -2216,6 +2216,7 @@ GameObject:
   - component: {fileID: 286473543}
   - component: {fileID: 286473540}
   - component: {fileID: 286473545}
+  - component: {fileID: 286473546}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -2338,6 +2339,31 @@ MonoBehaviour:
   fallGravityScale: 2
   enemySprite: {fileID: 289953793}
   animator: {fileID: 289953794}
+--- !u!114 &286473546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 286473533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dc096536c5c45f2aa2626de3538da18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  attackPoint: {fileID: 1992691682}
+  attackRange: 0.5
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
+  animator: {fileID: 289953794}
+  boxCollider: {fileID: 286473543}
+  distance: 2.09
+  range: 3.45
+  enemySprite: {fileID: 289953793}
+  cooldownTime: 2
+  fireballPrefab: {fileID: 160982983219630978, guid: 5e3ead69f7f079649a867476d853037a, type: 3}
 --- !u!1 &289953792
 GameObject:
   m_ObjectHideFlags: 0
@@ -2350,7 +2376,7 @@ GameObject:
   - component: {fileID: 289953795}
   - component: {fileID: 289953794}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Enemy GFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4831,7 +4857,7 @@ GameObject:
   - component: {fileID: 1549493183}
   - component: {fileID: 1549493184}
   m_Layer: 3
-  m_Name: Knight
+  m_Name: Player GFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
