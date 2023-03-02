@@ -1,13 +1,14 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Fight
+namespace Characters
 {
     public class Character : MonoBehaviour, IDamageble
     {
+        [SerializeField] protected Animator animator;
+        
         private float _health;
 
-        private void Start()
+        protected virtual void Start()
         {
             _health = 100f;
         }
@@ -15,6 +16,15 @@ namespace Fight
         public void TakeDamage(float damage)
         {
             _health = Mathf.Max(0, _health - damage);
+            if (_health == 0)
+            {
+                Die();
+            }
+        }
+
+        private void Die()
+        {
+            animator.SetTrigger("Death");
         }
     }
 }
