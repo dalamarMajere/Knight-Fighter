@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Fight;
+﻿using Fight;
 using UnityEngine;
 
 public class EnemyAttack : CharacterAttack
@@ -29,6 +26,7 @@ public class EnemyAttack : CharacterAttack
         if (IsPlayerInRange())
         {
             _cooldownTimeRemain = cooldownTime;
+            
             Attack();
         }
     }
