@@ -8,8 +8,6 @@ namespace Fight.Enemy
         [Header("Fireball")]
         [SerializeField] private Fireball fireballPrefab;
 
-        private float _cooldownTimeRemain;
-    
         protected override void Attack()
         {
             var fireball = Instantiate(fireballPrefab, this.transform);

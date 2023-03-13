@@ -14,8 +14,6 @@ namespace Characters
         [SerializeField] private float acceleration;
         [SerializeField] private float decceleration;
         [SerializeField] private float velocityPower;
-        [SerializeField] private float gravityScale;
-        [SerializeField] private float fallGravityScale;
 
         [Header("Visual")]
         [SerializeField] private Transform enemySprite;
@@ -77,7 +75,11 @@ namespace Characters
         
         private void SetAnimation()
         {
-            animator.SetFloat(SpeedHash, Mathf.Abs(_rigidbody.velocity.x));
+            if (animator == null)
+            {
+                return;
+            }
+            animator?.SetFloat(SpeedHash, Mathf.Abs(_rigidbody.velocity.x));
         }
 
         private void HandleFlipping()
